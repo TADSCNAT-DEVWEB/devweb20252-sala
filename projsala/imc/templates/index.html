@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de IMC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    {% load static %}
+    <script src="{% static 'imc/js/msg.js' %}"></script>
 </head>
 <body>
     <header>
@@ -13,7 +15,8 @@
     <main>
         <section class="section">
             <div class="container">
-                <form id="imc-form"  action="{% url 'imc:calcular_imc' %}" method="post">
+                 <div id="url_requisicao" data-url_post="{%url 'imc:calcular_imc'%}"></div>
+                <form id="imc-form"   method="post" onsubmit="carregarResultadoIMC(event)">
                     {% csrf_token %}
                     <label class="label">Altura (m):</label>
                     <div class="control">
@@ -28,6 +31,7 @@
             </div>
         </section>
     </main>
+    <section class="section" id="resultado_imc"></section>
     <footer class="footer">
         <div class="content has-text-centered">
             <p>&copy; 2025 Calculadora de IMC</p>
