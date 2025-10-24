@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Clima</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">
+                    <i class="fas fa-cloud-sun"></i>
+                    Buscador de Clima
+                </h1>
+                <p class="subtitle">
+                    Consulte o clima de qualquer cidade
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div id="url_clima" data-url="{% url 'clima:clima' %}"></div>
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <!-- Formulário de busca -->
+                    <div class="box">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input 
+                                    class="input is-large" 
+                                    type="text" 
+                                    id="cidadeInput" 
+                                    placeholder="Digite o nome da cidade..."
+                                    autocomplete="off"
+                                >
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary is-large" id="buscarBtn">
+                                    <span class="icon">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <span>Buscar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading indicator -->
+                    <div class="box has-text-centered" id="loadingBox" style="display: none;">
+                        <button class="button is-primary is-loading is-large"></button>
+                        <p class="mt-3">Buscando informações do clima...</p>
+                    </div>
+
+                    <!-- Resultado do clima -->
+                    <div class="box" id="resultadoBox" style="display: none;">
+                        <h2 class="title is-4 has-text-centered">
+                            <i class="fas fa-map-marker-alt has-text-danger"></i>
+                            <span id="nomeCidade"></span>
+                        </h2>
+                        
+                        <div class="columns is-mobile">
+                            <div class="column has-text-centered">
+                                <div class="box has-background-info-light">
+                                    <p class="heading">Temperatura</p>
+                                    <p class="title is-2 has-text-info">
+                                        <i class="fas fa-thermometer-half"></i>
+                                        <span id="temperatura"></span>°C
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="column has-text-centered">
+                                <div class="box has-background-success-light">
+                                    <p class="heading">Condição</p>
+                                    <p class="title is-4 has-text-success">
+                                        <i class="fas fa-eye" id="climaIcon"></i>
+                                        <span id="descricao"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="has-text-centered">
+                            <button class="button is-light" onclick="novaConsulta()">
+                                <span class="icon">
+                                    <i class="fas fa-redo"></i>
+                                </span>
+                                <span>Nova Consulta</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem de erro -->
+                    <div class="notification is-danger" id="erroBox" style="display: none;">
+                        <button class="delete" onclick="fecharErro()"></button>
+                        <div class="has-text-centered">
+                            <p class="title is-5">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Cidade não encontrada!
+                            </p>
+                            <p id="mensagemErro">Por favor, verifique o nome da cidade e tente novamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Buscador de Clima</strong> - Sistema de consulta meteorológica
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript externo -->
+    <script src="{% static 'clima/js/clima.js' %}"></script>
+</body>
+</html>
