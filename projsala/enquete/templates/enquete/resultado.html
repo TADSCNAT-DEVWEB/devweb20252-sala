@@ -1,6 +1,10 @@
 {% extends "principal/base.html" %}
 {% block page_title %}Resultado da Enquete{% endblock %}
 {% block page_subtitle %}Veja os resultados da sua participação{% endblock %}
+{% block breadcrumb_items %}
+<li><a href="{% url 'enquete:index' %}">Enquete</a></li>
+<li class="is-active"><a href="#" aria-current="page">Resultado</a></li>
+{% endblock %}
 {% block content %}
     {% load static %}   
         <link rel="stylesheet" href="{% static 'enquete/css/style.css' %}">

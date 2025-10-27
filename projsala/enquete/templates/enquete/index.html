@@ -2,6 +2,9 @@
 {% extends "principal/base.html" %}
 {% block page_title %}Enquete{% endblock %}
 {% block page_subtitle %}Participe da nossa enquete{% endblock %}
+{% block breadcrumb_items %}
+<li class="is-active"><a href="#" aria-current="page">Enquete</a></li>
+{% endblock %}
 {% block content %}
 	{% load static %}
 	<script src="{% static 'enquete/js/msg.js' %}"></script>

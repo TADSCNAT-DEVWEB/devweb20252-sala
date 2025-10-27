@@ -1,5 +1,9 @@
 {% extends "principal/base.html" %}
 {% block page_title %}Resultado do Cálculo do IMC{% endblock %}
+{% block breadcrumb_items %}
+<li><a href="{% url 'imc:index' %}">IMC</a></li>
+<li class="is-active"><a href="#" aria-current="page">Resultado</a></li>
+{% endblock %}
 {% block page_subtitle %}Veja o resultado do seu Índice de Massa Corporal{% endblock %}
 {% block content %}
         <div id="situacao_imc" data-classificacao="{{classificacao|escapejs}}"></div>
