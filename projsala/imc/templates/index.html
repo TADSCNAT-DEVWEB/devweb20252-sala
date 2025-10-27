@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de IMC</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-</head>
-<body>
-    <header>
-        <h1 class="title">Calculadora de IMC - V2</h1>
-    </header>
-    <main>
-        <section class="section">
+{% extends 'principal/base.html' %}
+{% block page_title %}Calculadora de IMC{% endblock %}
+{% block page_subtitle %}Calcule seu Índice de Massa Corporal{% endblock %}
+{% block content %}
             <div class="container">
                 <form id="imc-form"  action="{% url 'imc:calcular_imc' %}" method="post">
                     {% csrf_token %}
@@ -26,12 +16,4 @@
                     <button type="submit" class="button is-link">Calcular IMC</button>
                 </form>
             </div>
-        </section>
-    </main>
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>&copy; 2025 Calculadora de IMC</p>
-        </div>
-    </footer>
-</body>
-</html>
+ {% endblock %}       

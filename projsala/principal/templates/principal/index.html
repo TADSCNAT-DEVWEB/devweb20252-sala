@@ -1,0 +1,194 @@
+{% extends 'principal/base.html' %}
+
+{% block title %}Página Inicial - Projetos de Sala DevWeb 2025.2{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="is-active"><a href="#" aria-current="page">Página Inicial</a></li>
+{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-home"></i> Bem-vindo ao ProjSala
+{% endblock %}
+
+{% block page_subtitle %}
+<p class="subtitle is-5">Projeto de Sala de Aula- Semestre 2025.2</p>
+{% endblock %}
+
+{% block content %}
+<!-- Seção de Boas-vindas -->
+<div class="notification is-primary is-light mb-5">
+    <h2 class="title is-4">
+        <i class="fas fa-graduation-cap"></i> Bem-vindo ao Projeto de Sala de Aula!
+    </h2>
+    <p class="is-size-5">
+        Este projeto demonstra o uso de <strong>templates Django</strong> com <strong>herança</strong> e 
+        <strong>inclusão</strong>, utilizando o framework CSS <strong>Bulma</strong> para criar interfaces 
+        modernas e responsivas.
+    </p>
+</div>
+
+<!-- Cards das Aplicações -->
+<div class="columns is-multiline mb-5">
+    <!-- Card Enquete -->
+    <div class="column is-6">
+        <div class="card hover-card">
+            <div class="card-image">
+                <figure class="image is-4by3 has-background-primary">
+                    <div class="has-text-centered" style="padding-top: 80px;">
+                        <span class="icon is-large has-text-white">
+                            <i class="fas fa-poll fa-5x"></i>
+                        </span>
+                    </div>
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-4">
+                            <i class="fas fa-poll"></i> Sistema de Enquete
+                        </p>
+                        <p class="subtitle is-6 has-text-grey">Votação de Enquetes</p>
+                    </div>
+                </div>
+                <div class="content">
+                    <p>
+                        Participe das enquetes e veja os resultados.
+                    </p>
+                    <div class="tags mt-3">
+                        <span class="tag is-primary is-light">
+                            <i class="fas fa-vote-yea mr-1"></i> Votação
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <footer class="card-footer">
+                <a href="{% url 'enquete:index' %}" class="card-footer-item has-text-primary has-text-weight-semibold">
+                    <span class="icon">
+                        <i class="fas fa-vote-yea"></i>
+                    </span>
+                    <span>Votar Agora</span>
+                </a>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Card Calculadora IMC -->
+    <div class="column is-6">
+        <div class="card hover-card">
+            <div class="card-image">
+                <figure class="image is-4by3 has-background-info">
+                    <div class="has-text-centered" style="padding-top: 80px;">
+                        <span class="icon is-large has-text-white">
+                            <i class="fas fa-calculator fa-5x"></i>
+                        </span>
+                    </div>
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-4">
+                            <i class="fas fa-calculator"></i> Calculadora IMC
+                        </p>
+                        <p class="subtitle is-6 has-text-grey">Índice de Massa Corporal</p>
+                    </div>
+                </div>
+                <div class="content">
+                    <p>
+                        Calcule seu IMC e descubra sua classificação de acordo com os padrões 
+                        da Organização Mundial da Saúde (OMS).
+                    </p>
+                    <div class="tags mt-3">
+                        <span class="tag is-info is-light">
+                            <i class="fas fa-calculator mr-1"></i> Cálculo
+                        </span>
+                        <span class="tag is-success is-light">
+                            <i class="fas fa-heartbeat mr-1"></i> Saúde
+                        </span>
+                        <span class="tag is-warning is-light">
+                            <i class="fas fa-chart-line mr-1"></i> Classificação
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <footer class="card-footer">
+                <a href="{% url 'imc:index' %}" class="card-footer-item has-text-primary has-text-weight-semibold">
+                    <span class="icon">
+                        <i class="fas fa-calculator"></i>
+                    </span>
+                    <span>Calcular IMC</span>
+                </a>
+            </footer>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Efeito hover nos cards */
+    .hover-card {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hover-card .card-footer-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Animação suave para as mensagens */
+    .message {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .message:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Efeito nos boxes de estatísticas */
+    .box {
+        transition: all 0.3s ease;
+    }
+    
+    .box:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Tags com espaçamento */
+    .tags .tag {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    console.log('Página inicial do ProjSala carregada com sucesso!');
+    
+    // Adiciona efeito visual ao clicar nos cards
+    document.querySelectorAll('.hover-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Permite que os links funcionem normalmente
+            if (!e.target.closest('a')) {
+                console.log('Card clicado:', this.querySelector('.title').textContent);
+            }
+        });
+    });
+    
+</script>
+{% endblock %}
