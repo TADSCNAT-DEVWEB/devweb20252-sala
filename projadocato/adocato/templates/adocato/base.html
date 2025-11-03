@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Adocato - Sistema de Adoção de Gatos{% endblock %}</title>
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'adocato/header.html' %}
+    
+    <div class="columns is-gapless">
+        <!-- Sidebar -->
+        <div class="column is-2">
+            {% include 'adocato/sidebar.html' %}
+        </div>
+        
+        <!-- Main Content -->
+        <div class="column">
+            <section class="section">
+                <div class="container">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    {% include 'adocato/footer.html' %}
+    
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach( el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

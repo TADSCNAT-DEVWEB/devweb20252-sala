@@ -1,0 +1,90 @@
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'admin:index' %}">
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-cat"></i>
+                </span>
+                <span class="has-text-weight-bold">Adocato</span>
+            </span>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="{% url 'adocato:index' %}">
+                <span class="icon">
+                    <i class="fas fa-home"></i>
+                </span>
+                <span>Início</span>
+            </a>
+            
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <span class="icon">
+                        <i class="fas fa-paw"></i>
+                    </span>
+                    <span>Gatos</span>
+                </a>
+                
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{% url 'adocato:gato_list' %}">
+                        <span class="icon">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span>Listar Gatos</span>
+                    </a>
+                    <a class="navbar-item" href="#">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>Adicionar Gato</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <span class="icon">
+                        <i class="fas fa-dna"></i>
+                    </span>
+                    <span>Raças</span>
+                </a>
+                
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{% url 'adocato:raca_list' %}">
+                        <span class="icon">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span>Listar Raças</span>
+                    </a>
+                    <a class="navbar-item" href="#">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>Adicionar Raça</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-light" href="{% url 'admin:index' %}">
+                        <span class="icon">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span>Administração</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

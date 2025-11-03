@@ -1,0 +1,125 @@
+<aside class="menu has-background-light" style="min-height: 100vh; padding: 1rem;">
+    <p class="menu-label">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-home"></i>
+            </span>
+            <span>Navegação</span>
+        </span>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{% url 'adocato:index' %}">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </span>
+                    <span>Painel Principal</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+    
+    <p class="menu-label">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-paw"></i>
+            </span>
+            <span>Gatos</span>
+        </span>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{% url 'adocato:gato_list' %}">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-list"></i>
+                    </span>
+                    <span>Todos os Gatos</span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </span>
+                    <span>Novo Gato</span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    <span>Disponíveis</span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                    <span>Adotados</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+    
+    <p class="menu-label">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-dna"></i>
+            </span>
+            <span>Raças</span>
+        </span>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{% url 'adocato:raca_list' %}">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-list"></i>
+                    </span>
+                    <span>Todas as Raças</span>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </span>
+                    <span>Nova Raça</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+    
+    <p class="menu-label">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-cog"></i>
+            </span>
+            <span>Configurações</span>
+        </span>
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a href="{% url 'admin:index' %}">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tools"></i>
+                    </span>
+                    <span>Administração</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+</aside>

@@ -1,0 +1,151 @@
+{% extends 'adocato/base.html' %}
+
+{% block title %}Início - Adocato{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <section class="hero is-info is-medium">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <p class="title is-1">
+                    <span class="icon is-large">
+                        <i class="fas fa-cat fa-2x"></i>
+                    </span>
+                    Bem-vindo ao Adocato
+                </p>
+                <p class="subtitle is-3">
+                    Sistema de Adoção de Gatos
+                </p>
+                <p class="is-size-5">
+                    Encontre seu novo amigo felino e dê a ele um lar cheio de amor
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="section">
+        <div class="columns is-multiline">
+            <div class="column is-4">
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-info">
+                        <i class="fas fa-cat fa-3x"></i>
+                    </span>
+                    <p class="title is-4 mt-3">Gatos Disponíveis</p>
+                    <p class="subtitle is-5">Aguardando um lar</p>
+                </div>
+            </div>
+            
+            <div class="column is-4">
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-success">
+                        <i class="fas fa-heart fa-3x"></i>
+                    </span>
+                    <p class="title is-4 mt-3">Gatos Adotados</p>
+                    <p class="subtitle is-5">Felizes em seus lares</p>
+                </div>
+            </div>
+            
+            <div class="column is-4">
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-warning">
+                        <i class="fas fa-dna fa-3x"></i>
+                    </span>
+                    <p class="title is-4 mt-3">Raças Cadastradas</p>
+                    <p class="subtitle is-5">Diversidade felina</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="section">
+        <div class="columns">
+            <div class="column is-6">
+                <div class="card">
+                    <header class="card-header has-background-primary">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                            <span>Como Adotar</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <ol>
+                                <li>Navegue pela lista de gatos disponíveis</li>
+                                <li>Escolha o gatinho que mais combina com você</li>
+                                <li>Entre em contato conosco</li>
+                                <li>Agende uma visita</li>
+                                <li>Leve seu novo amigo para casa!</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{% url 'adocato:gato_list' %}" class="card-footer-item">
+                            Ver Gatos Disponíveis
+                        </a>
+                    </footer>
+                </div>
+            </div>
+            
+            <div class="column is-6">
+                <div class="card">
+                    <header class="card-header has-background-info">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon">
+                                <i class="fas fa-handshake"></i>
+                            </span>
+                            <span>Por que Adotar</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <ul>
+                                <li>Você salva uma vida</li>
+                                <li>Ganha um companheiro leal</li>
+                                <li>Ajuda a combater o abandono</li>
+                                <li>Todos os gatos são vacinados</li>
+                                <li>Suporte completo pós-adoção</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{% url 'admin:index' %}" class="card-footer-item">
+                            Saiba Mais
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section">
+        <div class="notification is-primary has-text-centered">
+            <p class="title is-4">
+                Pronto para mudar uma vida?
+            </p>
+            <p class="subtitle is-5">
+                Adote um gato hoje mesmo!
+            </p>
+            <div class="buttons is-centered mt-4">
+                <a href="{% url 'adocato:gato_list' %}" class="button is-light is-medium">
+                    <span class="icon">
+                        <i class="fas fa-paw"></i>
+                    </span>
+                    <span>Ver Gatos</span>
+                </a>
+                <a href="{% url 'admin:index' %}" class="button is-light is-medium">
+                    <span class="icon">
+                        <i class="fas fa-phone"></i>
+                    </span>
+                    <span>Entrar em Contato</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
