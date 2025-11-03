@@ -1,0 +1,271 @@
+{% extends 'adocato/base.html' %}
+
+{% block title %}Lista de Gatos - Adocato{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <div>
+                    <h1 class="title is-2">
+                        <span class="icon-text">
+                            <span class="icon has-text-primary">
+                                <i class="fas fa-cat fa-lg"></i>
+                            </span>
+                            <span>Gatos Cadastrados</span>
+                        </span>
+                    </h1>
+                    <p class="subtitle is-5">Gerencie os gatos disponíveis para adoção</p>
+                </div>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <a href="#" class="button is-primary is-medium">
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span>Novo Gato</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Search and Filter Bar -->
+    <form action="{% url 'adocato:gato_list' %}" method="post">
+        {% csrf_token %}
+        <div class="box">
+            <div class="columns">
+                <div class="column is-8">
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input class="input is-medium" type="text" id="searchInput" name="nome" placeholder="Buscar gato pelo nome..." value="{{request.POST.nome|default:''}}">
+                            <span class="icon is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button class="button is-info is-medium" type="submit">
+                                <span class="icon">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <span>Buscar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select is-medium is-fullwidth">
+                                <select id="filtroDisponivel" name="disponivel">
+                                    <option value="">Todos os gatos</option>
+                                    <option value="1" {% if request.POST.disponivel == '1' %}selected{% endif %}>Disponíveis</option>
+                                    <option value="0" {% if request.POST.disponivel == '0' %}selected{% endif %}>Adotados</option>
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="fas fa-filter"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="help">Digite o nome do gato para filtrar os resultados ou use o filtro de disponibilidade</p>
+        </div>
+    </form>
+
+    <!-- Statistics -->
+    <div class="columns is-multiline mb-4">
+        <div class="column is-3">
+            <div class="notification is-success is-light">
+                <p class="heading">Disponíveis</p>
+                <p class="title">{{ gatos_disponiveis|default:"0" }}</p>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="notification is-warning is-light">
+                <p class="heading">Adotados</p>
+                <p class="title">{{ gatos_adotados|default:"0" }}</p>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="notification is-primary is-light">
+                <p class="heading">Resultados</p>
+                <p class="title" id="resultadosBusca">{{ gatos|length|default:"0" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Gatos -->
+    {% if gatos %}
+    <div class="box">
+        <table class="table is-fullwidth is-striped is-hoverable">
+            <thead>
+                <tr>
+                    <th>
+                        <abbr title="Identificador">#</abbr>
+                    </th>
+                    <th>
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-paw"></i>
+                            </span>
+                            <span>Nome</span>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-venus-mars"></i>
+                            </span>
+                            <span>Sexo</span>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-palette"></i>
+                            </span>
+                            <span>Cor</span>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-dna"></i>
+                            </span>
+                            <span>Raça</span>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <span>Idade</span>
+                        </span>
+                    </th>
+                    <th class="has-text-centered">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            <span>Status</span>
+                        </span>
+                    </th>
+                    <th class="has-text-centered">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-cogs"></i>
+                            </span>
+                            <span>Ações</span>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tabelaGatos">
+                {% for gato in gatos %}
+                <tr class="gato-row" data-nome="{{ gato.nome|lower }}" data-disponivel="{{ gato.disponivel|lower }}">
+                    <td>{{ gato.id }}</td>
+                    <td>
+                        <strong>{{ gato.nome }}</strong>
+                    </td>
+                    <td>
+                        {% if gato.sexo == 'M' %}
+                        <span class="tag is-link is-light">
+                            <span class="icon">
+                                <i class="fas fa-mars"></i>
+                            </span>
+                            <span>Macho</span>
+                        </span>
+                        {% else %}
+                        <span class="tag is-danger is-light">
+                            <span class="icon">
+                                <i class="fas fa-venus"></i>
+                            </span>
+                            <span>Fêmea</span>
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="tag is-light">{{ gato.cor }}</span>
+                    </td>
+                    <td>{{ gato.raca.nome }}</td>
+                    <td>
+                        {% load humanize %}
+                        {{ gato.data_nascimento|timesince }}
+                    </td>
+                    <td class="has-text-centered">
+                        {% if gato.disponivel %}
+                        <span class="tag is-success">
+                            <span class="icon">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span>Disponível</span>
+                        </span>
+                        {% else %}
+                        <span class="tag is-warning">
+                            <span class="icon">
+                                <i class="fas fa-home"></i>
+                            </span>
+                            <span>Adotado</span>
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="has-text-centered">
+                        <div class="buttons is-centered">
+                            <a href="#" 
+                               class="button is-small is-info is-outlined"
+                               title="Ver detalhes">
+                                <span class="icon">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                            </a>
+                            <a href="#" 
+                               class="button is-small is-warning is-outlined"
+                               title="Editar gato">
+                                <span class="icon">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                            </a>
+                            <a href="#" 
+                               class="button is-small is-danger is-outlined"
+                               title="Remover gato"
+                               onclick="return confirm('Tem certeza que deseja remover o gato {{ gato.nome }}?')">
+                                <span class="icon">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    
+
+    {% else %}
+    <!-- Mensagem quando não há resultados na busca -->
+    <div class="notification is-warning" id="nenhumGato">
+        <p class="has-text-centered">
+            <span class="icon is-large">
+                <i class="fas fa-exclamation-triangle fa-2x"></i>
+            </span>
+        </p>
+        <p class="has-text-centered title is-5">Nenhum gato encontrado</p>
+        <p class="has-text-centered">Tente refinar sua busca ou adicione um novo gato.</p>
+    </div>
+    {% endif %}
+
+   
+</div>
+{% endblock %}
+
+
