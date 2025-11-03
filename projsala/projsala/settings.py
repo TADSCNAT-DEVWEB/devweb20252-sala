@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "imc",
     "enquete",
+    "principal"
 ]
 
 MIDDLEWARE = [

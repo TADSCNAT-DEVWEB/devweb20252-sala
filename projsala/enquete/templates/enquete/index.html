@@ -1,17 +1,16 @@
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Enquete</title>
+{% extends "principal/base.html" %}
+{% block page_title %}Enquete{% endblock %}
+{% block page_subtitle %}Participe da nossa enquete{% endblock %}
+{% block breadcrumb_items %}
+<li class="is-active"><a href="#" aria-current="page">Enquete</a></li>
+{% endblock %}
+{% block content %}
 	{% load static %}
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 	<script src="{% static 'enquete/js/msg.js' %}"></script>
-</head>
-<body>
+	
 	<img src="{% static 'enquete/imgs/logo.jfif' %}" alt="Logo" srcset="">
-	<section class="section">
+
 		<div class="container">
 			<h1 class="title">Enquete</h1>
 			<form action="{% url 'enquete:votar' %}" method="post">
@@ -52,6 +51,4 @@
 				</div>
 			</form>
 		</div>
-	</section>
-</body>
-</html>
+{% endblock %}

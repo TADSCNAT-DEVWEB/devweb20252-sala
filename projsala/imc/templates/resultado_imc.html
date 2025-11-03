@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado IMC</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    {% load static %}
-    <script src="{% static 'imc/js/msg.js' %}"></script>
-</head>
-<body>
-    <section class="section">
+{% extends "principal/base.html" %}
+{% block page_title %}Resultado do Cálculo do IMC{% endblock %}
+{% block breadcrumb_items %}
+<li><a href="{% url 'imc:index' %}">IMC</a></li>
+<li class="is-active"><a href="#" aria-current="page">Resultado</a></li>
+{% endblock %}
+{% block page_subtitle %}Veja o resultado do seu Índice de Massa Corporal{% endblock %}
+{% block content %}
         <div id="situacao_imc" data-classificacao="{{classificacao|escapejs}}"></div>
         <div class="container">
             <h1 class="title has-text-centered">Resultado do Cálculo do IMC</h1>
@@ -23,8 +19,4 @@
                 <a href="{% url 'imc:index' %}" class="button is-primary">Calcular Novamente</a>
             </div>
         </div>
-    </section>
-
-</body>
- 
-</html>
+{% endblock %}
