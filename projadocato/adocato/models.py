@@ -17,6 +17,9 @@ class Gato(models.Model):
     disponivel=models.BooleanField(default=True)
     raca=models.ForeignKey(Raca,on_delete=models.CASCADE,related_name='gatos')
 
+    def __str__(self):
+        return f'{self.nome} ({self.raca.nome})'
+
     @property
     def idade(self):
         from datetime import date

@@ -41,7 +41,7 @@
     <div class="box">
         <div class="field has-addons">
             <div class="control is-expanded has-icons-left">
-                <input class="input is-medium" type="text" id="searchInput" name="nome" placeholder="Buscar raça pelo nome...">
+                <input class="input is-medium" type="text" id="searchInput" name="nome" placeholder="Buscar raça pelo nome..." value="{{request.POST.nome|default:''}}">
                 <span class="icon is-left">
                     <i class="fas fa-search"></i>
                 </span>
@@ -113,7 +113,7 @@
                         <strong>{{ raca.nome }}</strong>
                     </td>
                     <td>
-                        <a href="#"><span class="tag is-info is-light">
+                        <a href="{% url 'adocato:gato_por_raca' raca.id %}"><span class="tag is-info is-light">
                             {{ raca.gatos.count }} gato{{ raca.gatos.count|pluralize }}
                         </span></a>
                         
@@ -145,16 +145,7 @@
         </table>
     </div>
 
-    <!-- Mensagem quando não há resultados na busca -->
-    <div class="notification is-warning" id="nenhumaRaca" style="display: none;">
-        <p class="has-text-centered">
-            <span class="icon is-large">
-                <i class="fas fa-exclamation-triangle fa-2x"></i>
-            </span>
-        </p>
-        <p class="has-text-centered title is-5">Nenhuma raça encontrada</p>
-        <p class="has-text-centered">Tente refinar sua busca ou adicione uma nova raça.</p>
-    </div>
+    
 
     {% else %}
     <!-- Mensagem quando não há raças cadastradas -->
