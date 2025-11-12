@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itens do Leilão</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'leilao:index' %}">Leilões</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Itens do Leilão</a></li>
+                </ul>
+            </nav>
+
+            <h1 class="title">{{ leilao }}</h1>
+            
+            <div class="box">
+                <div class="columns">
+                    <div class="column">
+                        <p><strong>Início:</strong> {{ leilao.dataInicio }} às {{ leilao.horaInicio }}</p>
+                    </div>
+                    <div class="column">
+                        <p><strong>Término:</strong> {{ leilao.dataTermino }} às {{ leilao.horaTermino }}</p>
+                    </div>
+                    <div class="column">
+                        <p><strong>Total de itens:</strong> {{ itens.count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="subtitle mt-5">Itens do Leilão</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" name="titulo" placeholder="Filtrar por título" value="{{ request.POST.titulo }}">
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-link">
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            {% if itens %}
+                <div class="table-container">
+                    <table class="table is-fullwidth is-striped is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Descrição</th>
+                                <th class="has-text-right">Lance Mínimo</th>
+                                <th class="has-text-centered">Total de Lances</th>
+                                <th class="has-text-centered">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in itens %}
+                                <tr>
+                                    <td><strong>{{ item.titulo }}</strong></td>
+                                    <td>{{ item.descricao }}</td>
+                                    <td class="has-text-right">R$ {{ item.lanceMinimo|floatformat:2 }}</td>
+                                    <td class="has-text-centered">
+                                        <span class="tag is-info is-light">{{ item.totalLances }}</span>
+                                    </td>
+                                    <td class="has-text-centered">
+                                        {% if item.arrematado %}
+                                            <span class="tag is-success">Arrematado</span>
+                                        {% else %}
+                                            <span class="tag is-warning">Disponível</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="notification is-warning">
+                    <p>Nenhum item cadastrado neste leilão.</p>
+                </div>
+            {% endif %}
+
+            <div class="mt-5">
+                <a href="{% url 'leilao:index' %}" class="button is-link">
+                    <span>← Voltar para Leilões</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
