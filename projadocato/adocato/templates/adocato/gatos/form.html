@@ -1,0 +1,179 @@
+{% extends "adocato/base.html" %}
+
+{% block title %}{% if gato %}Editar Gato{% else %}Cadastrar Gato{% endif %} - Adocato{% endblock %}
+
+{% block content %}
+<div class="box">
+    <h1 class="title is-3">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-cat"></i>
+            </span>
+            <span>{% if gato %}Editar Gato{% else %}Cadastrar Novo Gato{% endif %}</span>
+        </span>
+    </h1>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="columns">
+            <div class="column is-half">
+                <!-- Nome -->
+                <div class="field">
+                    <label class="label">Nome do Gato *</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" name="nome" placeholder="Ex: Mingau" 
+                               value="{% if gato %}{{ gato.nome }}{% endif %}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-paw"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sexo -->
+                <div class="field">
+                    <label class="label">Sexo *</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="sexo" required>
+                                <option value="">Selecione o sexo</option>
+                                <option value="M" {% if gato and gato.sexo == 'M' %}selected{% endif %}>Macho</option>
+                                <option value="F" {% if gato and gato.sexo == 'F' %}selected{% endif %}>Fêmea</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cor -->
+                <div class="field">
+                    <label class="label">Cor *</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" name="cor" placeholder="Ex: Laranja com branco" 
+                               value="{% if gato %}{{ gato.cor }}{% endif %}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-palette"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Data de Nascimento -->
+                <div class="field">
+                    <label class="label">Data de Nascimento *</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="date" name="data_nascimento" 
+                               value="{% if gato %}{{ gato.data_nascimento|date:'Y-m-d' }}{% endif %}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-half">
+                <!-- Raça -->
+                <div class="field">
+                    <label class="label">Raça *</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="raca" required>
+                                <option value="">Selecione a raça</option>
+                                {% for raca in racas %}
+                                    <option value="{{ raca.id }}" 
+                                            {% if gato and gato.raca.id == raca.id %}selected{% endif %}>
+                                        {{ raca.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Foto -->
+                <div class="field">
+                    <label class="label">Foto</label>
+                    <div class="control">
+                        <div class="file has-name is-fullwidth">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="foto" accept="image/*" 
+                                       onchange="updateFileName(this)">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Escolher foto...
+                                    </span>
+                                </span>
+                                <span class="file-name" id="fileName">
+                                    {% if gato and gato.foto %}{{ gato.foto.name }}{% else %}Nenhum arquivo selecionado{% endif %}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    {% if gato and gato.foto %}
+                        <p class="help">
+                            <a href="{{ gato.foto.url }}" target="_blank">Ver foto atual</a>
+                        </p>
+                    {% endif %}
+                </div>
+
+                <!-- Disponível (apenas para edição) -->
+                {% if gato %}
+                <div class="field">
+                    <label class="label">Disponibilidade</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="disponivel">
+                                <option value="1" {% if gato.disponivel %}selected{% endif %}>Disponível</option>
+                                <option value="0" {% if not gato.disponivel %}selected{% endif %}>Indisponível</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Descrição -->
+        <div class="field">
+            <label class="label">Descrição</label>
+            <div class="control">
+                <textarea class="textarea" name="descricao" placeholder="Informações adicionais sobre o gato..." 
+                          rows="4">{% if gato %}{{ gato.descricao }}{% endif %}</textarea>
+            </div>
+            <p class="help">Informações sobre comportamento, saúde, personalidade, etc.</p>
+        </div>
+
+        <!-- Botões -->
+        <div class="field is-grouped is-grouped-right">
+            <div class="control">
+                <a href="{% url 'adocato:gato_list' %}" class="button is-light">
+                    <span class="icon">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    <span>Cancelar</span>
+                </a>
+            </div>
+            <div class="control">
+                <button type="submit" class="button is-primary">
+                    <span class="icon">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span>{% if gato %}Salvar Alterações{% else %}Cadastrar Gato{% endif %}</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updateFileName(input) {
+        const fileName = document.getElementById('fileName');
+        if (input.files.length > 0) {
+            fileName.textContent = input.files[0].name;
+        } else {
+            fileName.textContent = 'Nenhum arquivo selecionado';
+        }
+    }
+</script>
+{% endblock %}

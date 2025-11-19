@@ -23,7 +23,7 @@
         </div>
         <div class="level-right">
             <div class="level-item">
-                <a href="#" class="button is-primary is-medium">
+                <a href="{% url 'adocato:gato_cadastrar' %}" class="button is-primary is-medium">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>
@@ -242,14 +242,14 @@
                                     <i class="fas fa-eye"></i>
                                 </span>
                             </a>
-                            <a href="#" 
+                            <a href="{% url 'adocato:gato_editar' gato.id %}" 
                                class="button is-small is-warning is-outlined"
                                title="Editar gato">
                                 <span class="icon">
                                     <i class="fas fa-edit"></i>
                                 </span>
                             </a>
-                            <a href="#" 
+                            <a href="{% url 'adocato:gato_excluir' gato.id %}" 
                                class="button is-small is-danger is-outlined"
                                title="Remover gato"
                                onclick="return confirm('Tem certeza que deseja remover o gato {{ gato.nome }}?')">
