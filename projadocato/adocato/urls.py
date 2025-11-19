@@ -11,4 +11,5 @@ urlpatterns = [
     path('gatos/cadastrar/', views.gato_cadastrar, name='gato_cadastrar'),
     path('gatos/<int:gato_id>/editar/', views.gato_editar, name='gato_editar'),
     path('gatos/<int:gato_id>/excluir/', views.gato_excluir, name='gato_excluir'),
+    path('gatos/disponiveis/', views.listar_gatos_disponiveis, name='gatos_disponiveis'),
 ]

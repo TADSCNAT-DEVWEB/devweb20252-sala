@@ -73,3 +73,8 @@ def gato_list(request):
 def gato_excluir(request, gato_id):
     GatoService.excluir_gato(gato_id)
     return redirect('adocato:gato_list')
+
+def listar_gatos_disponiveis(request):
+    gatos=GatoService.listar_gatos_disponiveis()
+    context={'gatos':gatos}
+    return render(request, 'adocato/gatos/lista.html',context)

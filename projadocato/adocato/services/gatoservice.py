@@ -24,6 +24,7 @@ class GatoService:
             return Gato.objects.get(id=gato_id)
         except Gato.DoesNotExist:
             return None
+    
     @staticmethod
     def cadastrar_gato(nome, sexo, cor, data_nascimento, raca_id, descricao=None, foto=None):
         gato = Gato(
