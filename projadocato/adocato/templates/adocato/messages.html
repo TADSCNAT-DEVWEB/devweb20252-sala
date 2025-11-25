@@ -1,0 +1,14 @@
+<!-- Exibição de mensagens do Django Messages Framework -->
+{% if messages %}
+    <div class="container" id="messages-container">
+        {% for message in messages %}
+            <div class="notification {% if message.tags == 'error' %}is-danger{% elif message.tags == 'warning' %}is-warning{% elif message.tags == 'success' %}is-success{% else %}is-info{% endif %} is-light" data-message-id="{{ forloop.counter }}">
+                <button class="delete" onclick="closeNotification(this)"></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    
+{% endif %}
+{% load static %}
+<script src="{% static 'adocato/js/messages.js' %}"></script>

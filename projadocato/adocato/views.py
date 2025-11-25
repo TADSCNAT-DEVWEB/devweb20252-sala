@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import Raca, Gato
+from django.core.exceptions import ValidationError
 from adocato.services.gatoservice import GatoService
+from adocato.utils import GerenciadorMensagem
 # Create your views here.
 
 def index(request):
@@ -30,8 +32,12 @@ def gato_cadastrar(request):
         raca_id=request.POST.get('raca')
         descricao=request.POST.get('descricao','')
         foto=request.FILES.get('foto',None)
-        GatoService.cadastrar_gato(nome, sexo, cor, data_nascimento, raca_id, descricao, foto)
-        return redirect('adocato:gato_list')
+        try:
+            GatoService.cadastrar_gato(nome, sexo, cor, data_nascimento, raca_id, descricao, foto)
+            GerenciadorMensagem.processar_mensagem_sucesso(request, 'Gato cadastrado com sucesso!')
+            return redirect('adocato:gato_list')
+        except ValidationError as e:
+            GerenciadorMensagem.processar_mensagem_erro(request, e)
     context={'racas':racas}
     return render(request, 'adocato/gatos/form.html',context)
 
@@ -50,8 +56,12 @@ def gato_editar(request, gato_id):
         foto=request.FILES.get('foto',None)
         disponivel=request.POST.get('disponivel','0')
         disponivel_bool = True if disponivel == '1' else False
-        GatoService.atualizar_gato(gato_id,nome,sexo,cor,data_nascimento,raca_id,descricao,foto,disponivel_bool)
-        return redirect('adocato:gato_list')
+        try:
+            GatoService.atualizar_gato(gato_id,nome,sexo,cor,data_nascimento,raca_id,descricao,foto,disponivel_bool)
+            GerenciadorMensagem.processar_mensagem_sucesso(request, 'Gato atualizado com sucesso!')
+            return redirect('adocato:gato_list')
+        except ValidationError as e:
+            GerenciadorMensagem.processar_mensagem_erro(request, e)
     context={'gato':gato,'racas':racas}
     return render(request, 'adocato/gatos/form.html',context)
 def gato_list(request):
@@ -72,6 +82,7 @@ def gato_list(request):
 
 def gato_excluir(request, gato_id):
     GatoService.excluir_gato(gato_id)
+    GerenciadorMensagem.processar_mensagem_sucesso(request, 'Gato excluído com sucesso!')
     return redirect('adocato:gato_list')
 
 def listar_gatos_disponiveis(request):

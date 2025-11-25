@@ -1,4 +1,5 @@
 from adocato.models import Gato,Raca
+from django.core.exceptions import ValidationError
 class GatoService:
    
     @staticmethod
@@ -37,6 +38,10 @@ class GatoService:
             foto=foto,
             disponivel=True
         )
+        try:
+            gato.full_clean()
+        except ValidationError as e:
+            raise e
         gato.save()
         return gato
     @staticmethod
@@ -60,6 +65,10 @@ class GatoService:
             gato.foto=foto
         if disponivel is not None:
             gato.disponivel=disponivel
+        try:
+            gato.full_clean()
+        except ValidationError as e:
+            raise e
         gato.save()
         return gato
     @staticmethod

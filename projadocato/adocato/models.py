@@ -1,5 +1,7 @@
+from datetime import datetime,date
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 class Raca(models.Model):
@@ -7,6 +9,11 @@ class Raca(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    def save(self, *args, **kwargs):
+        if len(self.nome)<3:
+            raise ValidationError('O nome da raça deve ter pelo menos 3 caracteres.')
+        return super().save(*args, **kwargs)
 
 class Gato(models.Model):
     nome=models.CharField(max_length=100,verbose_name='Nome do Gato')
@@ -21,9 +28,25 @@ class Gato(models.Model):
     def __str__(self):
         return f'{self.nome} ({self.raca.nome})'
 
+    def clean(self):
+        erros={}
+        if len(self.nome)<5:
+            erros['nome']='O nome do gato deve ter pelo menos 5 caracteres.'
+        if not self.cor:
+            erros['cor']='A cor do gato é obrigatória.'
+        if self.sexo not in ['M','F']:
+            erros['sexo']='O sexo deve ser "M" para macho ou "F" para fêmea.'
+        if not self.data_nascimento:
+            erros['data_nascimento']='A data de nascimento é obrigatória.'
+        if self.data_nascimento>date.today():
+            erros['data_nascimento']='A data de nascimento não pode ser no futuro.'
+        if erros:
+            raise ValidationError(erros)
+
     @property
     def idade(self):
-        from datetime import date
+        if not self.data_nascimento:
+            return 0
         hoje=date.today()
         idade=hoje.year - self.data_nascimento.year
         if (hoje.month,hoje.day) < (self.data_nascimento.month,self.data_nascimento.day):
@@ -45,12 +68,40 @@ class Usuario(User):
         verbose_name_plural='Usuários'
 
 class Adotante(Usuario):
+    data_nascimento=models.DateField(null=True,blank=True)
     telefone=models.CharField(max_length=15)
     foto=models.ImageField(upload_to='adotantes/',blank=True,null=True)
 
     class Meta:
         verbose_name='Adotante'
         verbose_name_plural='Adotantes'
+    
+    @property
+    def idade(self):
+        if not self.data_nascimento:
+            return 0
+        hoje=date.today()
+        idade=hoje.year - self.data_nascimento.year
+        if (hoje.month,hoje.day) < (self.data_nascimento.month,self.data_nascimento.day):
+            idade -= 1
+        return idade
+
+    def clean(self):
+        erros={}
+        if len(self.username)<5:
+            erros['username']='O nome de usuário deve ter pelo menos 5 caracteres.'
+        if len(self.password)<6:
+            erros['password']='A senha deve ter pelo menos 6 caracteres.'
+        if not self.data_nascimento:
+            erros['data_nascimento']='A data de nascimento é obrigatória.'
+        if self.data_nascimento>date.today():
+            erros['data_nascimento']='A data de nascimento não pode ser no futuro.'
+        if self.idade<18:
+            erros['data_nascimento']='O adotante deve ter pelo menos 18 anos.'
+        if len(self.cpf)!=11 or not self.cpf.isdigit():
+            erros['cpf']='O CPF deve conter exatamente 11 dígitos numéricos.'
+        if erros:
+            raise ValidationError(erros)
 
 class Coordenador(Usuario):
     apelido=models.CharField(max_length=50,unique=True)
