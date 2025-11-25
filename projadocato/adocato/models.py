@@ -64,6 +64,19 @@ class Usuario(User):
     cpf=models.CharField(max_length=11,unique=True)
     nome=models.CharField(max_length=150)
 
+    def clean(self):
+        erros={}
+        if len(self.nome)<5:
+            erros['nome']='O nome completo deve ter pelo menos 5 caracteres.'
+        if len(self.cpf)!=11 or not self.cpf.isdigit():
+            erros['cpf']='O CPF deve conter exatamente 11 dígitos numéricos.'
+        if len(self.username)<5:
+            erros['username']='O nome de usuário deve ter pelo menos 5 caracteres.'
+        if len(self.password)<6:
+            erros['password']='A senha deve ter pelo menos 6 caracteres.'
+        if erros:
+            raise ValidationError(erros)
+
     def __str__(self):
         return self.nome
     
@@ -94,23 +107,32 @@ class Adotante(Usuario):
 
     def clean(self):
         erros={}
-        if len(self.username)<5:
-            erros['username']='O nome de usuário deve ter pelo menos 5 caracteres.'
-        if len(self.password)<6:
-            erros['password']='A senha deve ter pelo menos 6 caracteres.'
+        try :
+            super().clean()
+        except ValidationError as e:
+            erros.update(e.message_dict) #Inclui a validação da superclasse dentro da estrutura de validação atual
         if not self.data_nascimento:
             erros['data_nascimento']='A data de nascimento é obrigatória.'
         if self.data_nascimento>date.today():
             erros['data_nascimento']='A data de nascimento não pode ser no futuro.'
         if self.idade<18:
             erros['data_nascimento']='O adotante deve ter pelo menos 18 anos.'
-        if len(self.cpf)!=11 or not self.cpf.isdigit():
-            erros['cpf']='O CPF deve conter exatamente 11 dígitos numéricos.'
         if erros:
             raise ValidationError(erros)
 
 class Coordenador(Usuario):
     apelido=models.CharField(max_length=50,unique=True)
+
+    def clean(self):
+        erros={}
+        try:
+            super().clean()
+        except ValidationError as e:
+            erros.update(e.message_dict) #Inclui a validação da superclasse dentro da estrutura de validação atual
+        if len(self.apelido)<3:
+            erros['apelido']='O apelido deve ter pelo menos 3 caracteres.'
+        if erros:
+            raise ValidationError(erros)
 
     class Meta:
         verbose_name='Coordenador'
@@ -126,6 +148,15 @@ class Solicitacao(models.Model):
     def __str__(self):
         return f'Solicitação de {self.adotante.nome} para {self.gato.nome}'
     
+    def clean(self):
+        erros={}
+        if self.gato and not self.gato.disponivel:
+            erros['gato']='O gato selecionado não está disponível para adoção.'
+        if not self.adotante:
+            erros['adotante']='A/O adotante é obrigatória.'
+        if erros:
+            raise ValidationError(erros)
+
     @property
     def atrasada(self):
         prazo_analise=7
