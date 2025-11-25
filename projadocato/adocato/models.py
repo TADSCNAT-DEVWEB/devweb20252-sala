@@ -7,13 +7,16 @@ from django.core.exceptions import ValidationError
 class Raca(models.Model):
     nome=models.CharField(max_length=100,unique=True)
 
+    def clean(self):
+        erros={}
+        if len(self.nome)<3:
+            erros['nome']='O nome da raça deve ter pelo menos 3 caracteres.'
+        if erros:
+            raise ValidationError(erros)
+
     def __str__(self):
         return self.nome
     
-    def save(self, *args, **kwargs):
-        if len(self.nome)<3:
-            raise ValidationError('O nome da raça deve ter pelo menos 3 caracteres.')
-        return super().save(*args, **kwargs)
 
 class Gato(models.Model):
     nome=models.CharField(max_length=100,verbose_name='Nome do Gato')
@@ -63,6 +66,9 @@ class Usuario(User):
 
     def __str__(self):
         return self.nome
+    
+    def cpf_formatado(self):
+        return f'{self.cpf[:3]}.{self.cpf[3:6]}.{self.cpf[6:9]}-{self.cpf[9:]}'
     class Meta:
         verbose_name='Usuário'
         verbose_name_plural='Usuários'
@@ -120,6 +126,12 @@ class Solicitacao(models.Model):
     def __str__(self):
         return f'Solicitação de {self.adotante.nome} para {self.gato.nome}'
     
+    @property
+    def atrasada(self):
+        prazo_analise=7
+        dias_decorridos=(datetime.now()-self.criadaEM).days
+        return dias_decorridos>prazo_analise
+
     class Meta:
         verbose_name='Solicitação'
         verbose_name_plural='Solicitações'
