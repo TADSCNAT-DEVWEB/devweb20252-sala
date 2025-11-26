@@ -1,0 +1,57 @@
+{% extends "adocato/base.html" %}
+
+{% block title %}{% if raca %}Editar Raça{% else %}Cadastrar Raça{% endif %} - Adocato{% endblock %}
+
+{% block content %}
+<div class="box">
+    <h1 class="title is-3">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-dna"></i>
+            </span>
+            <span>{% if raca.id %}Editar Raça{% else %}Cadastrar Nova Raça{% endif %}</span>
+        </span>
+    </h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="columns">
+            <div class="column is-half">
+                <!-- Nome -->
+                <div class="field">
+                    <label class="label">Nome da Raça *</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" name="nome" placeholder="Ex: Persa, Siamês, SRD..." 
+                               value="{% if raca %}{{ raca.nome }}{% endif %}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-paw"></i>
+                        </span>
+                    </div>
+                    <p class="help">O nome da raça deve ter pelo menos 3 caracteres.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="field is-grouped is-grouped-right">
+            <div class="control">
+                <a href="{% url 'adocato:raca_list' %}" class="button is-light">
+                    <span class="icon">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    <span>Cancelar</span>
+                </a>
+            </div>
+            <div class="control">
+                <button type="submit" class="button is-primary">
+                    <span class="icon">
+                        <i class="fas fa-save"></i>
+                    </span>
+                    <span>{% if raca %}Salvar Alterações{% else %}Cadastrar Raça{% endif %}</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
