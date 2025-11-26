@@ -18,6 +18,7 @@ class GatoService:
     @staticmethod
     def listar_gatos_disponiveis():
         return Gato.objects.filter(disponivel=True).order_by('nome')
+        #return GatoService.buscar_gatos(disponivel=True)
 
     @staticmethod
     def obter_gato_por_id(gato_id):

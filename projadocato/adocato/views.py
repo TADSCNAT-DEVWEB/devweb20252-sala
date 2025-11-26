@@ -32,12 +32,11 @@ def gato_cadastrar(request):
         raca_id=request.POST.get('raca')
         descricao=request.POST.get('descricao','')
         foto=request.FILES.get('foto',None)
-        try:
-            GatoService.cadastrar_gato(nome, sexo, cor, data_nascimento, raca_id, descricao, foto)
-            GerenciadorMensagem.processar_mensagem_sucesso(request, 'Gato cadastrado com sucesso!')
-            return redirect('adocato:gato_list')
-        except ValidationError as e:
-            GerenciadorMensagem.processar_mensagem_erro(request, e)
+ 
+        GatoService.cadastrar_gato(nome, sexo, cor, data_nascimento, raca_id, descricao, foto)
+            
+        return redirect('adocato:gato_list')
+
     context={'racas':racas}
     return render(request, 'adocato/gatos/form.html',context)
 
