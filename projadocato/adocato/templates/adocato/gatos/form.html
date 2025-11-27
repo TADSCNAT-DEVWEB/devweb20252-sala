@@ -23,7 +23,7 @@
                     <label class="label">Nome do Gato *</label>
                     <div class="control has-icons-left">
                         <input class="input" type="text" name="nome" placeholder="Ex: Mingau" 
-                               value="{% if gato %}{{ gato.nome }}{% endif %}" required>
+                               value="{% if gato %}{{ gato.nome }}{% else %} {{request.POST.nome|default:''}} {% endif %}" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-paw"></i>
                         </span>

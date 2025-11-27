@@ -161,7 +161,7 @@ class Solicitacao(models.Model):
     def atrasada(self):
         prazo_analise=7
         dias_decorridos=(datetime.now()-self.criadaEM).days
-        return dias_decorridos>prazo_analise
+        return dias_decorridos>prazo_analise and self.status=='EM_ANALISE'
 
     class Meta:
         verbose_name='Solicitação'
