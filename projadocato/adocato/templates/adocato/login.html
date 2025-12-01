@@ -1,0 +1,124 @@
+{% extends 'adocato/base.html' %}
+
+{% block title %}Login - Adocato{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-5-tablet is-4-desktop">
+        <div class="box">
+            <h1 class="title has-text-centered">
+                <span class="icon-text">
+                    <span class="icon has-text-primary">
+                        <i class="fas fa-user-lock"></i>
+                    </span>
+                    <span>Login</span>
+                </span>
+            </h1>
+            
+            <p class="has-text-centered mb-5">
+                Entre com suas credenciais para acessar o sistema
+            </p>
+
+            <form method="post" action="{% url 'adocato:login' %}">
+                {% csrf_token %}
+                
+                <div class="field">
+                    <label class="label" for="id_username">Usuário</label>
+                    <div class="control has-icons-left">
+                        <input 
+                            class="input" 
+                            type="text" 
+                            name="username" 
+                            id="id_username" 
+                            placeholder="Digite seu nome de usuário"
+                            required
+                            autofocus
+                        >
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="id_password">Senha</label>
+                    <div class="control has-icons-left">
+                        <input 
+                            class="input" 
+                            type="password" 
+                            name="password" 
+                            id="id_password" 
+                            placeholder="Digite sua senha"
+                            required
+                        >
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember_me">
+                            Lembrar-me
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-fullwidth">
+                            <span class="icon">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            <span>Entrar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+
+            <div class="has-text-centered">
+                <p class="mb-2">
+                    <a href="#">Esqueceu sua senha?</a>
+                </p>
+                <p>
+                    Não tem uma conta? 
+                    <a href="#">Cadastre-se como adotante</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="has-text-centered mt-4">
+            <p class="is-size-7 has-text-grey">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-cat"></i>
+                    </span>
+                    <span>Adocato - Sistema de Adoção de Gatos</span>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .box {
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .title {
+        color: #363636;
+    }
+    
+    .input:focus {
+        border-color: #3273dc;
+        box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+    }
+</style>
+{% endblock %}

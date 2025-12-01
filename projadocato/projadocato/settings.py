@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "adocato.context_processors.usuario_context",
             ],
         },
     },
@@ -121,6 +122,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+LOGIN_URL = 'adocato:login'
+LOGIN_REDIRECT_URL = 'adocato:index'
+LOGOUT_REDIRECT_URL = 'adocato:login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
