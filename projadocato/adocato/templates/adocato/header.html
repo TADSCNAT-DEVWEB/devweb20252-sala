@@ -41,7 +41,6 @@
                         <span>Listar Gatos</span>
                     </a>
 
-                    {% if eh_coordenador %}
 
                         <a class="navbar-item" href="{% url 'adocato:gato_cadastrar' %}">
                             <span class="icon">
@@ -49,7 +48,6 @@
                             </span>
                             <span>Adicionar Gato</span>
                         </a>
-                    {% endif %}
                 </div>
             </div>
             
@@ -85,20 +83,11 @@
                         <span class="icon">
                             <i class="fas fa-user"></i>
                         </span>
-                        {% if usuario_nome %}
-                            <span>{{usuario_nome}}</span>
-                        {% else %}
+                      
                             <span>Administração</span>
-                        {% endif %}
+                      
                     </a>
-                    {% if user.is_authenticated %}
-                        <a class="button is-light" href="{% url 'adocato:logout' %}">
-                        <span class="icon">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </span>
-                        <span>Sair</span>
-                        </a>
-                    {% endif %}
+                 
                 </div>
                 
             </div>

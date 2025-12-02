@@ -5,26 +5,15 @@ from adocato.services.gatoservice import GatoService
 from adocato.services.racaservice import RacaService
 from adocato.services.adotanteservice import AdotanteService
 from adocato.services.coordenadorservice import CoordenadorService
-from adocato.utils import GerenciadorMensagem,GerenciadorSessaoUsuario
+from adocato.utils import GerenciadorMensagem
 from django.contrib.auth import authenticate, login,logout
-from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
 # Create your views here.
 
 
-def is_adotante(user):
-    adotante=AdotanteService.obter_adotante_por_id(user.id)
-    return adotante is not None
-def is_coordenador(user):
-    coordenador=CoordenadorService.obter_coordenador_por_id(user.id)
-    return coordenador is not None
-
-def is_administrador(user):
-    return user.is_superuser
 
 def index(request):
     return render(request, 'adocato/index.html')
-@login_required
-@user_passes_test(is_coordenador)
+
 def raca_list(request):
     if request.method=='GET':
         racas=RacaService.listar_racas()
@@ -38,8 +27,7 @@ def gato_list_por_raca(request, raca_id):
     gatos=GatoService.listar_gatos_por_raca(raca_id)
     context={'gatos':gatos}
     return render(request, 'adocato/gatos/lista.html',context)
-@login_required
-@user_passes_test(is_coordenador)
+
 def gato_cadastrar(request):
     racas=RacaService.listar_racas()
     if request.method=='POST':
@@ -59,8 +47,7 @@ def gato_cadastrar(request):
 
     context={'racas':racas}
     return render(request, 'adocato/gatos/form.html',context)
-@login_required
-@user_passes_test(is_coordenador)
+
 def gato_editar(request, gato_id):
     gato=GatoService.obter_gato_por_id(gato_id)
     racas=RacaService.listar_racas()
@@ -99,8 +86,7 @@ def gato_list(request):
         gatos=GatoService.buscar_gatos(nome=nome, disponivel=disponivel_bool)
     context={'gatos':gatos}
     return render(request, 'adocato/gatos/lista.html',context)
-@login_required
-@user_passes_test(is_coordenador)
+
 def gato_excluir(request, gato_id):
     GatoService.excluir_gato(gato_id)
     GerenciadorMensagem.processar_mensagem_sucesso(request, 'Gato excluído com sucesso!')
@@ -111,8 +97,7 @@ def listar_gatos_disponiveis(request):
     context={'gatos':gatos}
     return render(request, 'adocato/gatos/lista.html',context)
 
-@login_required
-@user_passes_test(is_coordenador)
+
 def raca_cadastrar(request):
     if request.method=='POST':
         nome=request.POST.get('nome')
@@ -123,8 +108,7 @@ def raca_cadastrar(request):
         except ValidationError as e:
             GerenciadorMensagem.processar_mensagem_erro(request, e)
     return render(request, 'adocato/racas/form.html')
-@login_required
-@user_passes_test(is_coordenador)
+
 def raca_editar(request, raca_id):
     raca=RacaService.obter_raca_por_id(raca_id)
     if not raca:
@@ -139,8 +123,7 @@ def raca_editar(request, raca_id):
             GerenciadorMensagem.processar_mensagem_erro(request, e)
     context={'raca':raca}
     return render(request, 'adocato/racas/form.html',context)
-@login_required
-@user_passes_test(is_coordenador)
+
 def raca_excluir(request, raca_id):
     RacaService.excluir_raca(raca_id)
     GerenciadorMensagem.processar_mensagem_sucesso(request, 'Raça excluída com sucesso!')
@@ -162,8 +145,8 @@ def login_view(request):
         else:
             GerenciadorMensagem.processar_mensagem_erro(request, 'Usuário ou senha inválidos.')
             return render(request, 'adocato/login.html')
-@login_required
+
 def logout_view(request):
-    GerenciadorSessaoUsuario.limpar_sessao_usuario(request)
+    
     logout(request)
     return redirect('adocato:login')
