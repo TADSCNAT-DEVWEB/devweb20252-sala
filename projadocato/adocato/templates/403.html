@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Negado - 403</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .error-container {
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .error-code {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            color: #363636;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .error-description {
+            font-size: 1.1rem;
+            color: #7a7a7a;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .buttons-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .buttons-group {
+                flex-direction: column;
+            }
+            
+            .buttons-group .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">🔒</div>
+        <div class="error-code">403</div>
+        <h1 class="error-title">Acesso Negado</h1>
+        <p class="error-description">
+            Desculpe, você não tem permissão para acessar este recurso. 
+            Se acredita que isso é um erro, entre em contato com o administrador do site.
+        </p>
+        
+        <div class="buttons-group">
+            <a href="/" class="button is-primary is-light">
+                <span class="icon">
+                    <i class="fas fa-home"></i>
+                </span>
+                <span>Página Inicial</span>
+            </a>
+            <a href="javascript:history.back()" class="button is-secondary is-light">
+                <span class="icon">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Voltar</span>
+            </a>
+            <a href="mailto:suporte@example.com" class="button is-info is-light">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span>Contato</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
