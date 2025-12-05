@@ -27,6 +27,8 @@ SECRET_KEY = "django-insecure-7mk085-=v&)vg4z(fygmd3472wjwsem^ixx()03%xlyk#-5dzf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ALLOWED_HOSTS = []
 
 
@@ -116,6 +118,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+SESSION_COOKIE_AGE = 60 * 60 * 24  # 1 dia em segundos
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

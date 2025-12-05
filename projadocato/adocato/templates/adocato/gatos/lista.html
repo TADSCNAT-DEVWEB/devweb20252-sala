@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+        {%if eh_coordenador %}
         <div class="level-right">
             <div class="level-item">
                 <a href="{% url 'adocato:gato_cadastrar' %}" class="button is-primary is-medium">
@@ -31,6 +32,7 @@
                 </a>
             </div>
         </div>
+        {% endif %}
     </div>
 
     <hr>
@@ -242,6 +244,7 @@
                                     <i class="fas fa-eye"></i>
                                 </span>
                             </a>
+                            {% if eh_coordenador %}
                             <a href="{% url 'adocato:gato_editar' gato.id %}" 
                                class="button is-small is-warning is-outlined"
                                title="Editar gato">
@@ -257,6 +260,7 @@
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

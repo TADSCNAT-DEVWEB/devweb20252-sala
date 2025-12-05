@@ -120,7 +120,7 @@
                     </td>
                     <td class="has-text-centered">
                         <div class="buttons is-centered">
-                            <a href="#" 
+                            <a href="{% url 'adocato:raca_editar' raca.id %}" 
                                class="button is-small is-info is-outlined"
                                title="Editar raça">
                                 <span class="icon">
@@ -128,15 +128,17 @@
                                 </span>
                                 <span>Editar</span>
                             </a>
-                            <a href="#" 
-                               class="button is-small is-danger is-outlined"
-                               title="Remover raça"
-                               onclick="return confirm('Tem certeza que deseja remover a raça {{ raca.nome }}?')">
-                                <span class="icon">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span>Remover</span>
-                            </a>
+                            {% if perms.adocato.can_excluir_racas %}
+                                <a href="{% url 'adocato:raca_excluir' raca.id %}" 
+                                class="button is-small is-danger is-outlined"
+                                title="Remover raça"
+                                onclick="return confirm('Tem certeza que deseja remover a raça {{ raca.nome }}?')">
+                                    <span class="icon">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span>Remover</span>
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

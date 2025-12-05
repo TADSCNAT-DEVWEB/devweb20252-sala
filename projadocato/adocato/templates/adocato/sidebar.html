@@ -39,6 +39,7 @@
                 </span>
             </a>
         </li>
+        {% if eh_coordenador %}
         <li>
             <a href="{% url 'adocato:gato_cadastrar' %}">
                 <span class="icon-text">
@@ -49,6 +50,7 @@
                 </span>
             </a>
         </li>
+        {% endif %}
         <li>
             <a href="{% url 'adocato:gatos_disponiveis' %}">
                 <span class="icon-text">
@@ -70,7 +72,7 @@
             </a>
         </li>
     </ul>
-    
+    {%if eh_coordenador %}
     <p class="menu-label">
         <span class="icon-text">
             <span class="icon">
@@ -79,6 +81,7 @@
             <span>Raças</span>
         </span>
     </p>
+    
     <ul class="menu-list">
         <li>
             <a href="{% url 'adocato:raca_list' %}">
@@ -101,7 +104,7 @@
             </a>
         </li>
     </ul>
-    
+    {% endif %}
     <p class="menu-label">
         <span class="icon-text">
             <span class="icon">

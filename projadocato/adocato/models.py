@@ -17,6 +17,13 @@ class Raca(models.Model):
     def __str__(self):
         return self.nome
     
+    class Meta:
+        verbose_name='Raça'
+        verbose_name_plural='Raças'
+        ordering=['nome']
+        permissions=[('can_cadastrar_racas','Pode gerenciar raças de gatos'),
+                     ('can_excluir_racas','Pode excluir raças de gatos'),]
+    
 
 class Gato(models.Model):
     nome=models.CharField(max_length=100,verbose_name='Nome do Gato')
@@ -113,7 +120,7 @@ class Adotante(Usuario):
             erros.update(e.message_dict) #Inclui a validação da superclasse dentro da estrutura de validação atual
         if not self.data_nascimento:
             erros['data_nascimento']='A data de nascimento é obrigatória.'
-        if self.data_nascimento>date.today():
+        if self.data_nascimento and self.data_nascimento>date.today():
             erros['data_nascimento']='A data de nascimento não pode ser no futuro.'
         if self.idade<18:
             erros['data_nascimento']='O adotante deve ter pelo menos 18 anos.'

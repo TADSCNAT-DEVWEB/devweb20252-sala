@@ -18,10 +18,11 @@
     
     <div class="columns is-gapless">
         <!-- Sidebar -->
-        <div class="column is-2">
-            {% include 'adocato/sidebar.html' %}
-        </div>
-        
+         {% if request.user.is_authenticated %}
+            <div class="column is-2">
+                {% include 'adocato/sidebar.html' %}
+            </div>
+        {% endif %}
         <!-- Main Content -->
         <div class="column">
             {% include 'adocato/messages.html' %}
