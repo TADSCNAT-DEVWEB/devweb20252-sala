@@ -1,0 +1,67 @@
+{% if is_paginated %}
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <!-- Botão Anterior -->
+    {% if page_obj.has_previous %}
+        <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}" aria-label="Página anterior">
+            Anterior
+        </a>
+    {% else %}
+        <a class="pagination-previous" disabled aria-label="Página anterior">
+            Anterior
+        </a>
+    {% endif %}
+
+    <!-- Botão Próximo -->
+    {% if page_obj.has_next %}
+        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}" aria-label="Próxima página">
+            Próximo
+        </a>
+    {% else %}
+        <a class="pagination-next" disabled aria-label="Próxima página">
+            Próximo
+        </a>
+    {% endif %}
+
+    <!-- Lista de páginas -->
+    <ul class="pagination-list">
+        <!-- Primeira página -->
+        {% if page_obj.number > 3 %}
+            <li>
+                <a class="pagination-link" href="?page=1" aria-label="Ir para página 1">1</a>
+            </li>
+            {% if page_obj.number > 4 %}
+                <li>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+            {% endif %}
+        {% endif %}
+
+        <!-- Páginas próximas à atual -->
+        {% for num in paginator.page_range %}
+            {% if num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                {% if page_obj.number == num %}
+                    <li>
+                        <a class="pagination-link is-current" aria-label="Página {{ num }}" aria-current="page">{{ num }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="pagination-link" href="?page={{ num }}" aria-label="Ir para página {{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        <!-- Última página -->
+        {% if page_obj.number < paginator.num_pages|add:'-2' %}
+            {% if page_obj.number < paginator.num_pages|add:'-3' %}
+                <li>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+            {% endif %}
+            <li>
+                <a class="pagination-link" href="?page={{ paginator.num_pages }}" aria-label="Ir para página {{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

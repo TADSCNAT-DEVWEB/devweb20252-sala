@@ -23,7 +23,7 @@
                     <label class="label">Nome da Raça *</label>
                     <div class="control has-icons-left">
                         <input class="input" type="text" name="nome" placeholder="Ex: Persa, Siamês, SRD..." 
-                               value="{% if raca %}{{ raca.nome }}{% endif %}" required>
+                               value="{% if raca %}{{ raca.nome }}{%else%}{{request.POST.nome|default:''}}{% endif %}" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-paw"></i>
                         </span>

@@ -31,9 +31,13 @@
                     {% block content %}
                     {% endblock %}
                 </div>
+                <div class="container">
+                    {% include 'adocato/pagination.html' %}
+                </div>
             </section>
         </div>
     </div>
+    
     
     {% include 'adocato/footer.html' %}
     
