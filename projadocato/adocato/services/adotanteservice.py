@@ -42,11 +42,11 @@ class AdotanteService:
             telefone=telefone,
             foto=foto
         )
+        adotante.set_password(password)
         try:
             adotante.full_clean()
         except ValidationError as e:
             raise e
-        adotante.set_password(password)
         adotante.save()
         return adotante
     

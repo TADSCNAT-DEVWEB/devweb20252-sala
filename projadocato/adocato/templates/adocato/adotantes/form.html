@@ -1,0 +1,360 @@
+{% extends "adocato/base.html" %}
+
+{% block title %}Cadastro de Adotante - Adocato{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-8-tablet is-6-desktop">
+        <div class="box">
+            <h1 class="title is-3">
+                <span class="icon-text">
+                    <span class="icon has-text-primary">
+                        <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span>Cadastro de Adotante</span>
+                </span>
+            </h1>
+            
+            <p class="subtitle is-6 has-text-grey mb-5">
+                Preencha seus dados para se cadastrar como adotante e começar a adotar gatinhos!
+            </p>
+
+            <!-- Exibição de erros gerais do formulário -->
+            {% if form.non_field_errors %}
+                <div class="notification is-danger is-light">
+                    <button class="delete" onclick="this.parentElement.remove()"></button>
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Dados de Acesso -->
+                <div class="notification is-info is-light">
+                    <p class="has-text-weight-semibold mb-2">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <span>Dados de Acesso</span>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Nome de Usuário *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.username.errors %}is-danger{% endif %}" 
+                                       type="text" name="username" 
+                                       placeholder="Ex: joaosilva" 
+                                       value="{{ form.username.value|default:'' }}" 
+                                       required minlength="5">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                            {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="help">Mínimo de 5 caracteres</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Senha *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.password.errors %}is-danger{% endif %}" 
+                                       type="password" name="password" 
+                                       placeholder="Digite sua senha" 
+                                       required minlength="6">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
+                            {% if form.password.errors %}
+                                {% for error in form.password.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="help">Mínimo de 6 caracteres</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados Pessoais -->
+                <div class="notification is-primary is-light mt-4">
+                    <p class="has-text-weight-semibold mb-2">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-id-card"></i>
+                            </span>
+                            <span>Dados Pessoais</span>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Nome Completo *</label>
+                    <div class="control has-icons-left">
+                        <input class="input {% if form.nome.errors %}is-danger{% endif %}" 
+                               type="text" name="nome" 
+                               placeholder="Ex: João da Silva" 
+                               value="{{ form.nome.value|default:'' }}" 
+                               required minlength="5">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-signature"></i>
+                        </span>
+                    </div>
+                    {% if form.nome.errors %}
+                        {% for error in form.nome.errors %}
+                            <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% else %}
+                        <p class="help">Mínimo de 5 caracteres</p>
+                    {% endif %}
+                </div>
+
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">CPF *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.cpf.errors %}is-danger{% endif %}" 
+                                       type="text" name="cpf" 
+                                       placeholder="12345678901" 
+                                       value="{{ form.cpf.value|default:'' }}" 
+                                       required maxlength="11" pattern="[0-9]{11}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-id-card-alt"></i>
+                                </span>
+                            </div>
+                            {% if form.cpf.errors %}
+                                {% for error in form.cpf.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="help">Apenas números (11 dígitos)</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Data de Nascimento</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.data_nascimento.errors %}is-danger{% endif %}" 
+                                       type="date" name="data_nascimento" 
+                                       value="{{ form.data_nascimento.value|default:'' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                            {% if form.data_nascimento.errors %}
+                                {% for error in form.data_nascimento.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="help">Você deve ter pelo menos 18 anos</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contato -->
+                <div class="notification is-warning is-light mt-4">
+                    <p class="has-text-weight-semibold mb-2">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-address-book"></i>
+                            </span>
+                            <span>Contato</span>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Email *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.email.errors %}is-danger{% endif %}" 
+                                       type="email" name="email" 
+                                       placeholder="exemplo@email.com" 
+                                       value="{{ form.email.value|default:'' }}" 
+                                       required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Telefone *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.telefone.errors %}is-danger{% endif %}" 
+                                       type="text" name="telefone" 
+                                       placeholder="(11) 98765-4321" 
+                                       value="{{ form.telefone.value|default:'' }}" 
+                                       required maxlength="15">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                            </div>
+                            {% if form.telefone.errors %}
+                                {% for error in form.telefone.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Foto -->
+                <div class="field">
+                    <label class="label">Foto de Perfil (Opcional)</label>
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label">
+                            <input class="file-input {% if form.foto.errors %}is-danger{% endif %}" 
+                                   type="file" name="foto" accept="image/*" id="foto-input">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Escolher arquivo...
+                                </span>
+                            </span>
+                            <span class="file-name" id="foto-name">
+                                Nenhum arquivo selecionado
+                            </span>
+                        </label>
+                    </div>
+                    {% if form.foto.errors %}
+                        {% for error in form.foto.errors %}
+                            <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Botões -->
+                <div class="field is-grouped is-grouped-centered mt-5">
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-medium">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Cadastrar</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <a href="{% url 'adocato:index' %}" class="button is-light is-medium">
+                            <span class="icon">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            <span>Cancelar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="has-text-centered mt-4">
+                    <p class="is-size-7 has-text-grey">
+                        Já tem uma conta? <a href="{% url 'adocato:login' %}">Faça login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .box {
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .notification {
+        border-left: 4px solid;
+    }
+    
+    .notification.is-info {
+        border-left-color: #3273dc;
+    }
+    
+    .notification.is-primary {
+        border-left-color: #00d1b2;
+    }
+    
+    .notification.is-warning {
+        border-left-color: #ffdd57;
+    }
+    
+    .input:focus {
+        border-color: #3273dc;
+        box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Atualizar nome do arquivo selecionado
+    const fileInput = document.getElementById('foto-input');
+    const fileName = document.getElementById('foto-name');
+    
+    if (fileInput && fileName) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                fileName.textContent = this.files[0].name;
+            } else {
+                fileName.textContent = 'Nenhum arquivo selecionado';
+            }
+        });
+    }
+    
+    // Máscara de CPF
+    const cpfInput = document.querySelector('input[name="cpf"]');
+    if (cpfInput) {
+        cpfInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+    }
+    
+    // Máscara de telefone
+    const telefoneInput = document.querySelector('input[name="telefone"]');
+    if (telefoneInput) {
+        telefoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                if (value.length > 6) {
+                    value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+                } else if (value.length > 0) {
+                    value = value.replace(/^(\d*)/, '($1');
+                }
+            }
+            e.target.value = value;
+        });
+    }
+</script>
+{% endblock %}
