@@ -9,6 +9,15 @@ from adocato.utils import GerenciadorMensagem
 from adocato.views.mixins import AdotanteMixin
 
 
+class AdotanteDetailView(AdotanteMixin, DetailView):
+    
+    template_name = 'adocato/adotantes/detail.html'
+    context_object_name = 'adotante'
+
+    def get_object(self, queryset = ...):
+        
+        return AdotanteService.obter_adotante_por_id(self.kwargs['pk'])
+
 class AdotanteSalvarView(View):
 
     def dispatch(self, request, *args, **kwargs):
@@ -38,15 +47,6 @@ class AdotanteSalvarView(View):
                 GerenciadorMensagem.processar_mensagem_sucesso(request, "Adotante cadastrado com sucesso.")
                 return redirect('adocato:index')
             except ValidationError as e:
-                GerenciadorMensagem.processar_mensagem_erro(request, e)
-                return render(request, 'adocato/adotantes/form.html', {'form': form_adotante})
-
-
-class AdotanteDetailView(DetailView, AdotanteMixin):
-    template_name = 'adocato/adotantes/detail.html'
-    context_object_name = 'adotante'
-
-    def get_object(self, queryset=None):
-        adotante_id = self.kwargs.get('pk')
-        adotante = AdotanteService.obter_adotante_por_id(adotante_id)
-        return adotante
+                # Processa erro adicionando ao messages E ao formulário
+                GerenciadorMensagem.processar_mensagem_erro(request, e, form=form_adotante)
+        return render(request, 'adocato/adotantes/form.html', {'form': form_adotante})
