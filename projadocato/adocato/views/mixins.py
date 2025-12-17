@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from adocato.services.coordenadorservice import CoordenadorService
 from adocato.services.adotanteservice import AdotanteService    
 class CoordenadorMixin(UserPassesTestMixin):
@@ -17,3 +17,7 @@ class AdminMixin(UserPassesTestMixin):
     raise_exception = True
     def test_func(self):
         return self.request.user.is_superuser
+
+class ExcluirRacaMixin(PermissionRequiredMixin):
+    permission_required = 'raca.can_excluir'
+    raise_exception = True

@@ -36,8 +36,8 @@
     <hr>
 
     <!-- Search Bar -->
-    <form action="{% url 'adocato:raca_list' %}" method="post">
-    {% csrf_token %}
+    <form action="{% url 'adocato:raca_list' %}" method="get">
+    
     <div class="box">
         <div class="field has-addons">
             <div class="control is-expanded has-icons-left">
@@ -128,7 +128,7 @@
                                 </span>
                                 <span>Editar</span>
                             </a>
-                            {% if perms.adocato.can_excluir_racas %}
+                            
                                 <a href="{% url 'adocato:raca_excluir' raca.id %}" 
                                 class="button is-small is-danger is-outlined"
                                 title="Remover raça"
@@ -138,7 +138,7 @@
                                     </span>
                                     <span>Remover</span>
                                 </a>
-                            {% endif %}
+                            
                         </div>
                     </td>
                 </tr>

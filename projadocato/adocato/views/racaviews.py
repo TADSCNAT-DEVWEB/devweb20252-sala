@@ -1,30 +1,32 @@
 
 from adocato.services.racaservice import RacaService
 from django.views.generic import ListView,View
+from adocato.views.mixins import CoordenadorMixin,ExcluirRacaMixin
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from adocato.utils import GerenciadorMensagem
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
+@method_decorator(login_required,name='dispatch')
 class RacaListView(ListView):
     template_name = 'adocato/racas/lista.html'
     context_object_name = 'racas'
     paginate_by = 3
-    #http_method_names = ['get', 'post']
+    
     def get_queryset(self):
         if self.request.GET.get('nome') is None:
             return RacaService.listar_racas()
         else:
             nome = self.request.GET.get('nome', '')
             return RacaService.buscar_racas(nome=nome)
-    '''
-    def post(self, request, *args, **kwargs):
-        nome = request.POST.get('nome', '')
-        racas = RacaService.buscar_racas(nome=nome)
-        context = {'racas': racas}
-        return render(request, self.template_name, context)
-    '''
+    
+    
     
 
-class RacaSalvarView(View):
+    
+@method_decorator(login_required,name='post')
+class RacaSalvarView( View):
     def get(self, request, raca_id=None):
         if raca_id:
             raca = RacaService.obter_raca_por_id(raca_id)
@@ -33,6 +35,7 @@ class RacaSalvarView(View):
         context = {'raca': raca}
         return render(request, 'adocato/racas/form.html', context)
 
+    
     def post(self, request, raca_id=None):
         nome = request.POST.get('nome')
         try:
@@ -46,7 +49,7 @@ class RacaSalvarView(View):
         except ValidationError as e:
             GerenciadorMensagem.processar_mensagem_erro(request, e)
             return render(request, 'adocato/racas/form.html')
-class RacaExcluirView(View):
+class RacaExcluirView(ExcluirRacaMixin, View):
     def post(self, request, raca_id):
         sucesso = RacaService.excluir_raca(raca_id)
         if sucesso:
