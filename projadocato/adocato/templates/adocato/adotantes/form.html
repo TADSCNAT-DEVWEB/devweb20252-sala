@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="columns">
-                    <div class="column is-half">
+                    <div class="column is-one-third">
                         <div class="field">
                             <label class="label">Nome de Usuário *</label>
                             <div class="control has-icons-left">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    <div class="column is-half">
+                    <div class="column is-one-third">
                         <div class="field">
                             <label class="label">Senha *</label>
                             <div class="control has-icons-left">
@@ -82,6 +82,27 @@
                             </div>
                             {% if form.password.errors %}
                                 {% for error in form.password.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="help">Mínimo de 6 caracteres</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="column is-one-third">
+                        <div class="field">
+                            <label class="label">Confirme a Senha *</label>
+                            <div class="control has-icons-left">
+                                <input class="input {% if form.confirm_password.errors %}is-danger{% endif %}" 
+                                       type="password" name="confirm_password" 
+                                       placeholder="Digite sua senha" 
+                                       required minlength="6">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
+                            {% if form.confirm_password.errors %}
+                                {% for error in form.confirm_password.errors %}
                                     <p class="help is-danger">{{ error }}</p>
                                 {% endfor %}
                             {% else %}

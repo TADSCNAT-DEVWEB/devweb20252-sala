@@ -40,15 +40,20 @@
                         </span>
                         <span>Listar Gatos</span>
                     </a>
-
-                        {% if eh_coordenador %}
-                            <a class="navbar-item" href="{% url 'adocato:gato_cadastrar' %}">
-                                <span class="icon">
-                                    <i class="fas fa-plus"></i>
-                                </span>
-                                <span>Adicionar Gato</span>
-                            </a>
-                        {% endif %}
+                    <a class="navbar-item" href="{% url 'adocato:gatos_disponiveis' %}">
+                        <span class="icon">
+                            <i class="fas fa-cat"></i>
+                        </span>
+                        <span>Gatos Disponíveis</span>
+                    </a>
+                    {% if eh_coordenador %}
+                        <a class="navbar-item" href="{% url 'adocato:gato_cadastrar' %}">
+                            <span class="icon">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span>Adicionar Gato</span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             {% if eh_coordenador %}
