@@ -1,8 +1,41 @@
 from datetime import datetime,date
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.exceptions import ValidationError
 # Create your models here.
+
+try:
+    from cloudinary.models import CloudinaryField
+    CLOUDINARY_AVAILABLE = True
+except ImportError:
+    CLOUDINARY_AVAILABLE = False
+
+# Função helper para escolher o tipo de campo baseado no ambiente
+def get_image_field(*args, **kwargs):
+    """Retorna CloudinaryField em produção ou ImageField em desenvolvimento"""
+    if CLOUDINARY_AVAILABLE and not settings.DEBUG:
+        # Remove o upload_to para Cloudinary e adiciona folder se necessário
+        if 'upload_to' in kwargs:
+            folder = kwargs.pop('upload_to').rstrip('/')
+            if 'folder' not in kwargs:
+                kwargs['folder'] = f'adocato/{folder}'
+        return CloudinaryField(*args, **kwargs)
+    else:
+        return models.ImageField(*args, **kwargs)
+
+def get_file_field(*args, **kwargs):
+    """Retorna CloudinaryField em produção ou FileField em desenvolvimento"""
+    if CLOUDINARY_AVAILABLE and not settings.DEBUG:
+        # Remove o upload_to para Cloudinary e adiciona folder se necessário
+        if 'upload_to' in kwargs:
+            folder = kwargs.pop('upload_to').rstrip('/')
+            if 'folder' not in kwargs:
+                kwargs['folder'] = f'adocato/{folder}'
+        kwargs['resource_type'] = 'auto'  # Para aceitar qualquer tipo de arquivo
+        return CloudinaryField(*args, **kwargs)
+    else:
+        return models.FileField(*args, **kwargs)
 
 class Raca(models.Model):
     nome=models.CharField(max_length=100,unique=True)
@@ -33,7 +66,7 @@ class Gato(models.Model):
     descricao=models.TextField(blank=True,null=True)
     disponivel=models.BooleanField(default=True)
     raca=models.ForeignKey(Raca,on_delete=models.CASCADE,related_name='gatos')
-    foto=models.ImageField(upload_to='gatos/',blank=True,null=True)
+    foto=get_image_field(upload_to='gatos/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.nome} ({self.raca.nome})'
@@ -96,7 +129,7 @@ class Usuario(User):
 class Adotante(Usuario):
     data_nascimento=models.DateField(null=True,blank=True)
     telefone=models.CharField(max_length=15)
-    foto=models.ImageField(upload_to='adotantes/',blank=True,null=True)
+    foto=get_image_field(upload_to='adotantes/', blank=True, null=True)
 
     class Meta:
         verbose_name='Adotante'
@@ -190,7 +223,7 @@ class Avaliacao(models.Model):
         ordering=['-dataAvaliacao']
 class Documento(models.Model):
     solicitacao=models.ForeignKey(Solicitacao,on_delete=models.CASCADE,related_name='documentos')
-    arquivo=models.FileField(upload_to='documentos/')
+    arquivo=get_file_field(upload_to='documentos/', verbose_name="Arquivo")
     descricao=models.CharField(max_length=200,blank=True,null=True)
     enviadoEM=models.DateTimeField(auto_now_add=True)
 
