@@ -1,0 +1,28 @@
+# Core Django requirements
+Django>=5.2,<6.0
+django-extensions>=3.2.0
+Pillow
+
+# Database
+dj-database-url>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Static files
+whitenoise>=6.5.0
+
+# Admin interface
+django-jazzmin>=2.6.0
+
+# Environment variables
+python-decouple>=3.8
+
+# Production server
+gunicorn>=21.0.0
+uvicorn>=0.24.0
+
+# Media files (Cloudinary)
+cloudinary>=1.36.0
+django-cloudinary-storage>=0.3.0
+
+# Development tools (comentados para produção)
+django-debug-toolbar>=4.2.0
