@@ -42,11 +42,11 @@ class AdotanteService:
             telefone=telefone,
             foto=foto
         )
+        adotante.set_password(password)
         try:
             adotante.full_clean()
         except ValidationError as e:
             raise e
-        adotante.set_password(password)
         adotante.save()
         return adotante
     
@@ -71,12 +71,12 @@ class AdotanteService:
             adotante.telefone = telefone
         if foto is not None:
             adotante.foto = foto
+        if password is not None:
+            adotante.set_password(password)
         try:
             adotante.full_clean()
         except ValidationError as e:
             raise e
-        if password is not None:
-            adotante.set_password(password)
         adotante.save()
         return adotante
     

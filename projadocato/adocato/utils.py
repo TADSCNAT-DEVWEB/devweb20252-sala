@@ -3,10 +3,35 @@ from adocato.services.coordenadorservice import CoordenadorService
 from adocato.services.adotanteservice import AdotanteService
 class GerenciadorMensagem:
     @staticmethod
-    def processar_mensagem_erro(request,validation_error):
-   # Lista para armazenar mensagens únicas
+    def processar_mensagem_erro(request, validation_error, form=None):
+        """
+        Processa erros de validação e os adiciona ao Django messages.
+        Se um formulário for fornecido, os erros também são associados aos campos do formulário.
+        
+        Args:
+            request: O objeto HttpRequest
+            validation_error: A exceção ValidationError capturada
+            form: (Opcional) O formulário ao qual os erros devem ser adicionados
+        """
+        # Lista para armazenar mensagens únicas
         mensagens_unicas = set()
         
+        # Se um formulário foi fornecido, adiciona os erros aos campos correspondentes
+        if form is not None:
+            if hasattr(validation_error, 'error_dict'):
+                # Erros organizados por campo
+                for field, errors in validation_error.error_dict.items():
+                    for error in errors:
+                        form.add_error(field, error)
+            elif hasattr(validation_error, 'error_list'):
+                # Erros não específicos de campo
+                for error in validation_error.error_list:
+                    form.add_error(None, error)
+            else:
+                # Fallback: adiciona como erro geral
+                form.add_error(None, str(validation_error))
+        
+        # Processa mensagens para o Django messages framework
         if hasattr(validation_error, 'message_dict') and validation_error.message_dict:
             # Erros estruturados por campo
             for campo, erros in validation_error.message_dict.items():
@@ -25,7 +50,7 @@ class GerenciadorMensagem:
             # Mensagem simples
             mensagens_unicas.add(str(validation_error))
         
-        # Adiciona apenas mensagens únicas
+        # Adiciona apenas mensagens únicas ao Django messages
         for mensagem in mensagens_unicas:
             messages.error(request, mensagem)
     

@@ -1,0 +1,156 @@
+{% extends 'adocato/base.html' %}
+
+{% block title %}Gatos Disponíveis - Adocato{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="level mb-5">
+        <div class="level-left">
+            <div class="level-item">
+                <div>
+                    <h1 class="title is-2">
+                        <span class="icon-text">
+                            <span class="icon has-text-success">
+                                <i class="fas fa-heart fa-lg"></i>
+                            </span>
+                            <span>Gatos Disponíveis para Adoção</span>
+                        </span>
+                    </h1>
+                    <p class="subtitle is-5">Encontre seu novo amigo de quatro patas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Search Bar -->
+    <form action="{% url 'adocato:gatos_disponiveis' %}" method="get" class="mb-5">
+        <div class="box">
+            <div class="field has-addons">
+                <div class="control is-expanded has-icons-left">
+                    <input class="input is-medium" type="text" name="nome" placeholder="Buscar gato pelo nome..." value="{{ request.GET.nome|default:'' }}">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <div class="control">
+                    <button class="button is-success is-medium" type="submit">
+                        <span class="icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <span>Buscar</span>
+                    </button>
+                </div>
+            </div>
+            <p class="help">Digite o nome do gato para filtrar os resultados</p>
+        </div>
+    </form>
+
+    <!-- Gatos Cards -->
+    {% if gatos %}
+        <div class="columns is-multiline">
+            {% for gato in gatos %}
+            <div class="column is-one-third">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            {% if gato.foto %}
+                                <img src="{{ gato.foto.url }}" alt="Foto de {{ gato.nome }}" style="object-fit: cover;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/400x300/e0e0e0/757575?text=Sem+Foto" alt="Sem foto disponível">
+                            {% endif %}
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">
+                                    <span class="icon-text">
+                                        <span class="icon has-text-success">
+                                            <i class="fas fa-cat"></i>
+                                        </span>
+                                        <span>{{ gato.nome }}</span>
+                                    </span>
+                                </p>
+                                <p class="subtitle is-6 has-text-grey">
+                                    {{ gato.sexo|yesno:"Macho,Fêmea" }} • {{ gato.cor }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <div class="tags mb-3">
+                                <span class="tag is-info is-light">
+                                    <span class="icon">
+                                        <i class="fas fa-paw"></i>
+                                    </span>
+                                    <span>{{ gato.raca.nome }}</span>
+                                </span>
+                                <span class="tag is-warning is-light">
+                                    <span class="icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </span>
+                                    <span>
+                                        {% if gato.idade == 0 %}
+                                            Menos de 1 ano
+                                        {% elif gato.idade == 1 %}
+                                            1 ano
+                                        {% else %}
+                                            {{ gato.idade }} anos
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </div>
+
+                            {% if gato.descricao %}
+                                <p class="is-size-7 has-text-grey-dark">
+                                    {% if gato.descricao|length > 100 %}
+                                        {{ gato.descricao|slice:":100" }}...
+                                    {% else %}
+                                        {{ gato.descricao }}
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="#" class="card-footer-item has-text-success has-text-weight-semibold">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                                <span>Adotar</span>
+                            </span>
+                        </a>
+                       
+                    </footer>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Empty State -->
+        <div class="notification is-info is-light">
+            <div class="has-text-centered py-6">
+                <span class="icon is-large has-text-info mb-4">
+                    <i class="fas fa-cat fa-3x"></i>
+                </span>
+                <p class="title is-4">Nenhum gato disponível</p>
+                <p class="subtitle is-6">
+                    {% if request.GET.nome %}
+                        Não encontramos gatos com o nome "{{ request.GET.nome }}".
+                        <br>
+                        <a href="{% url 'adocato:gatos_disponiveis' %}" class="button is-info is-light mt-3">
+                            Ver todos os gatos
+                        </a>
+                    {% else %}
+                        No momento não há gatos disponíveis para adoção.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

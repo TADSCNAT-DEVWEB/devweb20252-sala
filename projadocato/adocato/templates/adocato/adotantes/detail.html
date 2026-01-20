@@ -1,0 +1,328 @@
+{% extends "adocato/base.html" %}
+
+{% block title %}Meu Perfil - Adocato{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <!-- Perfil do Adotante -->
+    <div class="column is-4">
+        <div class="box has-text-centered">
+            <figure class="image is-128x128 mx-auto mb-4">
+                {% if adotante.foto %}
+                    <img src="{{ adotante.foto.url }}" alt="{{ adotante.nome }}" class="is-rounded">
+                {% else %}
+                    <img src="https://via.placeholder.com/128/00d1b2/ffffff?text={{ adotante.nome|slice:':1' }}" 
+                         alt="{{ adotante.nome }}" class="is-rounded">
+                {% endif %}
+            </figure>
+            
+            <h1 class="title is-4">{{ adotante.nome }}</h1>
+            <p class="subtitle is-6 has-text-grey">@{{ adotante.username }}</p>
+            
+            <div class="tags are-medium is-centered mb-4">
+                <span class="tag is-primary">
+                    <span class="icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span>Adotante</span>
+                </span>
+            </div>
+
+            <a href="#" class="button is-primary is-fullwidth mb-2">
+                <span class="icon">
+                    <i class="fas fa-edit"></i>
+                </span>
+                <span>Editar Perfil</span>
+            </a>
+            
+            <a href="#" class="button is-light is-fullwidth">
+                <span class="icon">
+                    <i class="fas fa-key"></i>
+                </span>
+                <span>Alterar Senha</span>
+            </a>
+        </div>
+
+        <!-- Informações Rápidas -->
+        <div class="box">
+            <h2 class="title is-5 mb-4">
+                <span class="icon-text">
+                    <span class="icon has-text-info">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                    <span>Resumo</span>
+                </span>
+            </h2>
+            
+            <div class="content">
+                <div class="level is-mobile mb-3">
+                    <div class="level-left">
+                        <span class="icon-text">
+                            <span class="icon has-text-grey">
+                                <i class="fas fa-birthday-cake"></i>
+                            </span>
+                            <span>Idade</span>
+                        </span>
+                    </div>
+                    <div class="level-right">
+                        <strong>
+                            {% if adotante.idade %}
+                                {{ adotante.idade }} anos
+                            {% else %}
+                                Não informada
+                            {% endif %}
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="level is-mobile mb-3">
+                    <div class="level-left">
+                        <span class="icon-text">
+                            <span class="icon has-text-grey">
+                                <i class="fas fa-clipboard-list"></i>
+                            </span>
+                            <span>Solicitações</span>
+                        </span>
+                    </div>
+                    <div class="level-right">
+                        <strong>{{ adotante.solicitacoes.count }}</strong>
+                    </div>
+                </div>
+
+                <div class="level is-mobile">
+                    <div class="level-left">
+                        <span class="icon-text">
+                            <span class="icon has-text-grey">
+                                <i class="fas fa-calendar-alt"></i>
+                            </span>
+                            <span>Membro desde</span>
+                        </span>
+                    </div>
+                    <div class="level-right">
+                        <strong>{{ adotante.date_joined|date:"m/Y" }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalhes e Ações -->
+    <div class="column is-8">
+        <!-- Dados Pessoais -->
+        <div class="box">
+            <h2 class="title is-4 mb-4">
+                <span class="icon-text">
+                    <span class="icon has-text-primary">
+                        <i class="fas fa-id-card"></i>
+                    </span>
+                    <span>Dados Pessoais</span>
+                </span>
+            </h2>
+            
+            <div class="columns is-multiline">
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label is-small has-text-grey">Nome Completo</label>
+                        <p class="is-size-5">{{ adotante.nome }}</p>
+                    </div>
+                </div>
+
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label is-small has-text-grey">CPF</label>
+                        <p class="is-size-5">{{ adotante.cpf_formatado }}</p>
+                    </div>
+                </div>
+
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label is-small has-text-grey">Data de Nascimento</label>
+                        <p class="is-size-5">
+                            {% if adotante.data_nascimento %}
+                                {{ adotante.data_nascimento|date:"d/m/Y" }}
+                            {% else %}
+                                <span class="has-text-grey-light">Não informada</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label is-small has-text-grey">Email</label>
+                        <p class="is-size-5">
+                            <span class="icon-text">
+                                <span class="icon has-text-info">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <span>{{ adotante.email }}</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label is-small has-text-grey">Telefone</label>
+                        <p class="is-size-5">
+                            <span class="icon-text">
+                                <span class="icon has-text-success">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                <span>{{ adotante.telefone }}</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Minhas Solicitações -->
+        <div class="box">
+            <h2 class="title is-4 mb-4">
+                <span class="icon-text">
+                    <span class="icon has-text-warning">
+                        <i class="fas fa-clipboard-list"></i>
+                    </span>
+                    <span>Minhas Solicitações</span>
+                </span>
+            </h2>
+            
+            {% if adotante.solicitacoes.all %}
+                <div class="table-container">
+                    <table class="table is-fullwidth is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>Gato</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th class="has-text-centered">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for solicitacao in adotante.solicitacoes.all %}
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-48x48">
+                                                {% if solicitacao.gato.foto %}
+                                                    <img src="{{ solicitacao.gato.foto.url }}" alt="{{ solicitacao.gato.nome }}" class="is-rounded">
+                                                {% else %}
+                                                    <img src="https://via.placeholder.com/48/00d1b2/ffffff?text=🐱" class="is-rounded">
+                                                {% endif %}
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="has-text-weight-semibold">{{ solicitacao.gato.nome }}</p>
+                                            <p class="is-size-7 has-text-grey">{{ solicitacao.gato.raca.nome }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="icon-text">
+                                        <span class="icon has-text-grey">
+                                            <i class="fas fa-calendar"></i>
+                                        </span>
+                                        <span>{{ solicitacao.criadaEM|date:"d/m/Y" }}</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if solicitacao.status == 'EM_ANALISE' %}
+                                        <span class="tag is-warning">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>Em Análise</span>
+                                        </span>
+                                    {% elif solicitacao.status == 'APROVADA' %}
+                                        <span class="tag is-success">
+                                            <span class="icon">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <span>Aprovada</span>
+                                        </span>
+                                    {% elif solicitacao.status == 'REPROVADA' %}
+                                        <span class="tag is-danger">
+                                            <span class="icon">
+                                                <i class="fas fa-times"></i>
+                                            </span>
+                                            <span>Reprovada</span>
+                                        </span>
+                                    {% elif solicitacao.status == 'EM_RECURSO' %}
+                                        <span class="tag is-info">
+                                            <span class="icon">
+                                                <i class="fas fa-redo"></i>
+                                            </span>
+                                            <span>Em Recurso</span>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="has-text-centered">
+                                    <a href="{% url 'adocato:detalhes_solicitacao' solicitacao.id %}" 
+                                       class="button is-small is-info">
+                                        <span class="icon">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <span>Detalhes</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <article class="message is-info">
+                    <div class="message-body">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                            <span>
+                                Você ainda não possui nenhuma solicitação de adoção. 
+                                <a href="{% url 'adocato:gato_list' %}">Veja os gatinhos disponíveis!</a>
+                            </span>
+                        </span>
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .box {
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image.is-128x128 img {
+        object-fit: cover;
+        width: 128px;
+        height: 128px;
+    }
+    
+    .image.is-48x48 img {
+        object-fit: cover;
+        width: 48px;
+        height: 48px;
+    }
+    
+    .level {
+        border-bottom: 1px solid #f5f5f5;
+        padding-bottom: 0.75rem;
+    }
+    
+    .level:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    
+    .table td {
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}

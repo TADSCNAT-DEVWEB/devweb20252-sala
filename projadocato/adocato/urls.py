@@ -2,6 +2,8 @@ from django.urls import path
 from django.views.generic import TemplateView
 from adocato.views.indexviews import IndexView
 from adocato.views.racaviews import RacaListView,RacaSalvarView,RacaExcluirView
+from adocato.views.adotanteviews import AdotanteSalvarView, AdotanteDetailView
+from adocato.views.gatosviews import GatoListView, GatoDisponivelListView, GatoDetailView
 from . import views_old
 
 app_name = 'adocato'
@@ -17,7 +19,9 @@ urlpatterns = [
     path('gatos/cadastrar/', views_old.gato_cadastrar, name='gato_cadastrar'),
     path('gatos/<int:gato_id>/editar/', views_old.gato_editar, name='gato_editar'),
     path('gatos/<int:gato_id>/excluir/', views_old.gato_excluir, name='gato_excluir'),
-    path('gatos/disponiveis/', views_old.listar_gatos_disponiveis, name='gatos_disponiveis'),
+    path('gatos/disponiveis/', GatoDisponivelListView.as_view(), name='gatos_disponiveis'),
+    path('adotantes/cadastrar/', AdotanteSalvarView.as_view(), name='adotante_cadastrar'),
+    path('adotantes/meu_perfil/<int:pk>/', AdotanteDetailView.as_view(), name='adotante_meu_perfil'),
     path('login/', views_old.login_view, name='login'),
     path('logout/', views_old.logout_view, name='logout'),
 ]
