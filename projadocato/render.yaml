@@ -1,0 +1,29 @@
+#Troque os valores de acordo com a sua aplicação. Observe onde tem a palavra adocato e faça a troca.
+databases:
+  - name: adocatov2db
+    plan: free
+    databaseName: adocatov2db
+    user: adocato
+
+services:
+  - type: web
+    name: adocatov2
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: 'cd projadocato && python -m gunicorn projadocato.asgi:application -k uvicorn.workers.UvicornWorker' 
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DJANGO_SETTINGS_MODULE
+        value: projadocato.settings.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DATABASE_URL
+        fromDatabase:
+          name: adocatodb
+          property: connectionString
