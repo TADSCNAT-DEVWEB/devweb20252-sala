@@ -3,7 +3,7 @@
 set -o errexit
 
 # Change to project directory
-cd xxx # Diretório do projeto
+#cd xxx # Diretório do projeto
 
 # Install dependencies
 pip install -r requirements_render.txt
