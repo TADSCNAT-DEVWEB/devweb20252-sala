@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "adocato",
     "django_extensions",
-    "rest_framework",
-    "drf_yasg",
+    "rest_framework", # Instalação do Django Rest Framework
+    "drf_yasg", # Instalação do drf-yasg para documentação Swagger
 ]
 
 MIDDLEWARE = [
@@ -140,13 +140,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Django Rest Framework Settings
+# Configurações do Django Rest Framework
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
+    'DEFAULT_RENDERER_CLASSES': [ # Configuração dos renderizadores padrão
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_PARSER_CLASSES': [
+    'DEFAULT_PARSER_CLASSES': [ # Configuração dos parsers padrão
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
