@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "adocato",
     "django_extensions",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
