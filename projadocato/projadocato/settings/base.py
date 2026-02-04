@@ -10,7 +10,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Application definition
 INSTALLED_APPS = [
-    "jazzmin", 
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -18,7 +17,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    "adocato", #Mude aqui
+    'usuario',
+    'contas',
+    'transacoes',
+    'config',
+    'grupo_familiar',
+    'categoria',
+    'dashboard',
     "django_extensions",
 ]
 
@@ -32,19 +37,19 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",   
 ]
 
-ROOT_URLCONF = "projadocato.urls" # Mude aqui
+ROOT_URLCONF = "mysite.urls" # Mude aqui
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'mysite/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "adocato.context_processors.usuario_context", #Remova ou mude, se a sua aplicação tem um contextprocessor
+               
             ],
         },
     },
